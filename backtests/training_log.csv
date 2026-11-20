@@ -1,0 +1,2 @@
+timestamp,backend,n_estimators,learning_rate,max_depth,n_features,n_train_rows,n_oos_rows,train_time_min,oos_mae,oos_rmse,coverage_q10,coverage_q50,coverage_q90,top3_features
+2026-03-30 21:55:01,lightgbm,300,0.05,6,89,6806821,7126217,5.0,4.5238,45.1858,0.152,0.528,0.902,"sales_lag_6, sales_lag_3, sales_lag_5"

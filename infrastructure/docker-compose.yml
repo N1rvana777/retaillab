@@ -1,0 +1,66 @@
+version: "3.9"
+
+services:
+  api:
+    build:
+      context: ..
+      dockerfile: infrastructure/Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - JWT_SECRET=${JWT_SECRET:-dev-secret-change-me}
+      - MODEL_DIR=/app/models
+      - LOG_LEVEL=INFO
+      - REDIS_URL=redis://redis:6379/0
+    volumes:
+      - model-data:/app/models
+      - feature-data:/app/data
+      - log-data:/app/logs
+    depends_on:
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - retaillab
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    volumes:
+      - redis-data:/data
+    networks:
+      - retaillab
+
+  # Batch training job — only starts with: docker compose --profile training up
+  trainer:
+    build:
+      context: ..
+      dockerfile: infrastructure/Dockerfile
+    command: ["python", "-m", "quant_engine.training.trainer"]
+    environment:
+      - MODEL_DIR=/app/models
+      - LOG_LEVEL=INFO
+    volumes:
+      - model-data:/app/models
+      - feature-data:/app/data
+      - log-data:/app/logs
+    profiles:
+      - training
+    networks:
+      - retaillab
+
+volumes:
+  model-data:
+  feature-data:
+  log-data:
+  redis-data:
+
+networks:
+  retaillab:
+    driver: bridge

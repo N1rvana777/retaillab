@@ -1,0 +1,58 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Virtual env
+.venv/
+venv/
+env/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Environment
+.env
+
+# Models (binary, too large for git)
+models/*.bin
+models/*.json
+models/*.txt
+!models/.gitkeep
+
+# Data (raw data, too large for git)
+data/raw/
+data/features/
+backtests/backtest_results/
+data/*.csv
+data/*.parquet
+!data/.gitkeep
+
+# Telemetry logs
+logs/
+*.jsonl
+
+# Testing
+.pytest_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker
+*.log
+
+# public snapshot
+.claude/
+models/*.joblib
+backtests/report/*.csv
+backtests/report/*.html

@@ -1,0 +1,16 @@
+__pycache__
+*.pyc
+.git
+.venv
+venv
+.env
+*.egg-info
+dist
+build
+.pytest_cache
+.mypy_cache
+notebooks
+tests
+.claude
+*.md
+!README.md
