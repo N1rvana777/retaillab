@@ -55,3 +55,7 @@ python -m pytest tests -q
 
 Much of the code was written by AI coding agents (Claude Code, Codex) working under the
 rules in `CLAUDE.md` and `AGENTS.md`.
+
+## License
+
+MIT; see `LICENSE`.
