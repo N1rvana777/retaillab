@@ -11,6 +11,16 @@ quantile forecasts of daily store-SKU demand feed a newsvendor order rule.
 > `city_b`). The pipeline cannot run end to end without the original data; the tests use
 > synthetic data.
 
+## Overview
+
+- **Decision.** How much each store should order of each product each day. A stock-out loses margin and overstock costs spoilage and holding, so the order is the demand quantile at the critical fractile `Cu/(Cu+Co)`, estimated directly by quantile regression.
+- **Data.** Three stores, January 2024 to February 2026: about 15 million store-SKU-day rows built from 292 POS export files, plus purchase records, inventory snapshots and product master data from an ERP with its own product codes.
+- **Censored demand.** Sales understate demand on stock-out days. The v2 pipeline reconstructs daily inventory from purchases, sales and snapshots, and treats a day as stocked out when the opening stock is zero.
+- **Ordering.** A newsvendor optimiser with minimum-order, shelf and truck constraints, unit-tested against closed-form solutions.
+- **Audit.** An audit in September 2026 withdrew the headline profit numbers. Stock-out labels used statistics pooled over both years and a forward-looking window; some inputs, such as the day's discount and observed weather, are known only after the day ends; and the test year had been used to prune features and choose the quantile.
+
+The project is closed. The partner withdrew permission to use the data, so the planned fixes were not carried out.
+
 ## Contents
 
 - `data_pipeline/`: ingestion of POS (Kemai) exports and ERP (Guanjiapo) tables; cleaning
@@ -34,7 +44,8 @@ quantile forecasts of daily store-SKU demand feed a newsvendor order rule.
 Daily SKU-level sales from three stores for 2024 and 2025: about 14 million transaction
 rows, aggregated to about 6.8 million (2024) and 7.1 million (2025) store-SKU-day rows.
 About 43,000 products were sold in both years, and 64,000 to 71,000 in each year. Purchase,
-inventory snapshot and product master tables came with it.
+inventory snapshot and product master tables came with it. The feature table, which also
+covers January and February 2026, has about 15.2 million rows.
 
 ## Results
 
